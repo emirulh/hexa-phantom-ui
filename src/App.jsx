@@ -6,17 +6,13 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  // Navigation State Management Core Engine
   const [activeState, setActiveState] = useState('1.1');
-  
-  // Interactive Live State Anchors
   const [isCharging, setIsCharging] = useState(false);
   const [chargeProgress, setChargeProgress] = useState(48);
   const [cabinTemp, setCabinTemp] = useState(24);
   const [defoggerActive, setDefoggerActive] = useState(false);
   const [airCircMode, setAirCircMode] = useState('fresh');
 
-  // HVAC Button Active Toggle States
   const [hvacSettings, setHvacSettings] = useState({
     sync: false,
     ac: true, 
@@ -24,7 +20,6 @@ export default function App() {
     maxHeat: false
   });
 
-  // Smooth Battery Level Simulation Loop
   useEffect(() => {
     let interval;
     if (isCharging) {
@@ -38,7 +33,6 @@ export default function App() {
     return () => clearInterval(interval);
   }, [isCharging]);
 
-  // Temp Setpoint Limit Controls [16°C min - 28°C max parameters]
   const handleTempIncrement = () => { 
     if (cabinTemp < 28) {
       const nextTemp = cabinTemp + 1;
@@ -55,7 +49,6 @@ export default function App() {
     }
   };
 
-  // HVAC Mode Selection Handler Matrix with Presets Forcing Temperature Limits
   const handleHvacToggle = (field) => {
     setHvacSettings(prev => {
       const updated = { ...prev, [field]: !prev[field] };
@@ -74,9 +67,7 @@ export default function App() {
   return (
     <div className="w-full max-w-[1400px] h-[780px] bg-[#b8b8b8] text-black flex flex-col justify-between overflow-hidden p-4 select-none font-sans mx-auto">
       
-      {/* ========================================================= */}
-      {/* HEADER BAR STATUS OVERVIEWS                               */}
-      {/* ========================================================= */}
+      {/* HEADER */}
       <section id="section-header" className="w-full pb-2">
         <div className="bg-[#d9d9d9] rounded-[17px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] px-6 py-4 flex justify-between items-center min-h-[90px]">
           <div className="flex items-center gap-6">
@@ -85,7 +76,7 @@ export default function App() {
               className="bg-[#b2c7af] hover:bg-[#a0b59d] transition-colors rounded-[18px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] px-5 py-2 flex items-center gap-2 font-bold text-[#0c2d09] text-sm"
             >
               <span className="w-2.5 h-2.5 bg-emerald-800 rounded-full animate-pulse"></span>
-              <span>Home</span>
+              <span>Smart EV</span>
             </button>
             <div className="flex items-center gap-2 text-[#928c8c] font-bold text-sm">
               <Wifi size={18} />
@@ -110,101 +101,95 @@ export default function App() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* CENTRAL CONSOLE SYSTEM WORKSPACE                          */}
-      {/* ========================================================= */}
+      {/* MAIN */}
       <section id="section-main" className="w-full py-2 flex-1 flex overflow-hidden">
         <div className="w-full flex flex-col lg:flex-row gap-6 h-full">
           
-          {/* PERSISTENT LEFT BAR PANEL: VEHICLE STATUS FRAME */}
-          <div className="w-[318px] shrink-0 bg-[#d9d9d9] rounded-[17px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-6 flex flex-col justify-between">
-            <div>
-              <h2 className="text-[#928c8c] text-xs font-black tracking-wider mb-5 uppercase text-left">
-                {activeState === '1.1' ? 'VEHICLE STATUS' : activeState === '1.7' || activeState === '1.7.1' ? 'VEHICLE STATUS' : 'CURRENT BATTERY STATUS'}
-              </h2>
-              
-              <div className="w-full flex justify-center items-center py-2 mb-4">
-                <img 
-                  src="/car-render.png" 
-                  className="w-full max-w-[220px] object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.25)]" 
-                  alt="Hexa Phantom Car Frame" 
-                />
-              </div>
+          {/* LEFT SIDEBAR */}
+          <div className="w-[318px] shrink-0 bg-[#d9d9d9] rounded-[17px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-5 flex flex-col justify-between">
+            <div className="w-full h-full flex flex-col justify-between flex-1">
 
-              <div className="w-full space-y-4 px-1 text-sm font-bold text-[#5c5454]">
-                <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                  <span>Battery</span>
-                  <span className="font-black text-[#459a3e]">{chargeProgress}%</span>
+              {/* CONDITIONAL: Battery Status (charge screens) vs Nav Info (everything else) */}
+              {activeState === '1.2' || activeState === '1.3' ? (
+                <div className="flex flex-col items-center gap-3 flex-1 justify-start pt-2">
+                  <div className="text-[#928c8c] text-[10px] font-black tracking-widest uppercase w-full text-left mb-1">CURRENT BATTERY STATUS</div>
+                  <div className="w-full flex items-center justify-center my-2">
+                    <div className="w-[120px] h-[70px] bg-slate-300 rounded-[14px] flex items-center justify-center text-slate-500 text-xs font-bold">EV CAR</div>
+                  </div>
+                  <div className="w-full space-y-2 text-sm font-bold mt-2">
+                    <div className="flex justify-between border-b border-black/10 pb-2">
+                      <span className="text-[#5c5454]">Battery</span>
+                      <span className="text-[#459a3e] font-black">{chargeProgress}%</span>
+                    </div>
+                    <div className="flex justify-between border-b border-black/10 pb-2">
+                      <span className="text-[#5c5454]">Range</span>
+                      <span className="text-[#459a3e] font-black">188 km</span>
+                    </div>
+                    <div className="flex justify-between pb-1">
+                      <span className="text-[#5c5454]">Power</span>
+                      <span className="text-[#459a3e] font-black">12.4 kW</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                  <span>{activeState === '1.5' || activeState === '1.6' ? 'Humidity' : 'Range'}</span>
-                  <span className="font-black text-[#459a3e]">{activeState === '1.5' || activeState === '1.6' ? '74%' : activeState === '1.2' || activeState === '1.3' ? '228km' : '188km'}</span>
+              ) : (
+                <div>
+                  <div className="text-emerald-700 text-xl font-black text-center mt-2">In 300 m</div>
+                  <div className="flex justify-center my-4"><ArrowUpRight size={76} className="text-emerald-600 stroke-[3.5]" /></div>
+                  <div className="text-3xl font-black text-black text-center tracking-tight leading-tight">Unimas Campus</div>
+                  <div className="text-slate-500 text-[10px] font-black text-center tracking-widest uppercase mt-0.5">Next Turn</div>
+                  <div className="border-t border-black/10 my-2"></div>
+                  <div className="flex items-center gap-2 text-slate-600 font-bold text-xs justify-center"><MapPin size={14} /><span>Via Kota Samarahan</span></div>
+                  <div className="flex gap-2.5 mt-2">
+                    <div className="bg-[#b8b8b8] text-center rounded-[14px] p-2 flex-1 shadow-sm"><span className="text-emerald-700 font-black text-base block">21:24</span><span className="text-[8px] text-slate-600 font-bold uppercase block mt-0.5">Arrival</span></div>
+                    <div className="bg-[#b8b8b8] text-center rounded-[14px] p-2 flex-1 shadow-sm"><span className="text-black font-black text-base block">24 <span className="text-xs text-slate-500">min</span></span><span className="text-[8px] text-slate-600 font-bold uppercase block mt-0.5">Time Left</span></div>
+                    <div className="bg-[#b8b8b8] text-center rounded-[14px] p-2 flex-1 shadow-sm"><span className="text-black font-black text-base block">12.3 <span className="text-xs text-slate-500">km</span></span><span className="text-[8px] text-slate-600 font-bold uppercase block mt-0.5">Distance</span></div>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span>{activeState === '1.4' ? 'Cabin Temp' : 'Power'}</span>
-                  <span className="font-black text-[#459a3e]">{activeState === '1.4' ? `${cabinTemp}°C` : '12.4kW'}</span>
-                </div>
-              </div>
+              )}
+
+              <button 
+                onClick={() => setActiveState('1.2')}
+                className="w-full bg-[#b2c7af] hover:bg-[#a0b59d] transition-colors rounded-[18px] py-3.5 flex items-center justify-center gap-2 shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-black text-[#0c2d09] text-xs uppercase tracking-wider mt-4"
+              >
+                <span>
+                  {activeState === '1.4' 
+                    ? 'TEMP CONTROL' 
+                    : activeState === '1.7' || activeState === '1.7.1' 
+                    ? 'NAVIGATION READY' 
+                    : 'SELECT CHARGER'}
+                </span>
+              </button>
+
             </div>
-
-            <button 
-              onClick={() => setActiveState('1.2')}
-              className="w-full bg-[#b2c7af] hover:bg-[#a0b59d] transition-colors rounded-[18px] py-3.5 flex items-center justify-center gap-2 shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-black text-[#0c2d09] text-xs uppercase tracking-wider"
-            >
-              <span>
-                {activeState === '1.4' 
-                  ? 'TEMP CONTROL' 
-                  : activeState === '1.7' || activeState === '1.7.1' 
-                  ? 'NAVIGATION READY' 
-                  : 'SELECT CHARGER'}
-              </span>
-            </button>
           </div>
 
-          {/* ----------------------------------------------------- */}
-          {/* FLEXIBLE CENTRAL CONTENT AREA BLOCK                   */}
-          {/* ----------------------------------------------------- */}
+          {/* CENTRAL CONTENT */}
           <div className="flex-1 bg-[#d9d9d9] rounded-[17px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-6 flex flex-col justify-between relative overflow-hidden">
             
-            {/* ========================================================================================= */}
-            {/* FIXED FIGMA 1.1 DRIVE MODE DASHBOARD VIEW                                                 */}
-            {/* ========================================================================================= */}
+            {/* 1.1 DRIVE MODE */}
             {activeState === '1.1' && (
               <div className="w-full h-full flex flex-col justify-between flex-1">
                 <h2 className="text-[#928c8c] text-xs font-black tracking-wider uppercase text-left mb-2">VEHICLE STATUS</h2>
-                
                 <div className="flex-1 flex flex-col justify-center items-center my-auto">
-                  
-                  {/* Huge Figma Battery Gauge and Large Text Indicator Row */}
                   <div className="flex items-center gap-6 mb-2">
                     <div className="w-[170px] h-[85px] border-[5px] border-[#459a3e] rounded-[22px] p-1.5 flex items-center bg-transparent">
                       <div className="h-full bg-[#459a3e] rounded-[12px]" style={{ width: `${chargeProgress}%` }}></div>
                     </div>
                     <div className="text-6xl font-black text-[#459a3e] tracking-tighter">{chargeProgress}%</div>
                   </div>
-
-                  {/* Dynamic Remaining Range Metrics */}
                   <div className="text-center mb-8">
                     <div className="text-4xl font-black text-black leading-none tracking-tight">188 km</div>
                     <div className="text-[10px] text-slate-500 font-black tracking-widest uppercase mt-1">Remaining Range</div>
                   </div>
-
-                  {/* Unified Telemetry Widgets Block */}
                   <div className="flex items-end gap-6 w-full justify-center max-w-lg">
-                    
-                    {/* Current Vehicle Speed Box */}
                     <div className="bg-[#c8c8c8] rounded-[18px] w-[130px] h-[95px] flex flex-col items-center justify-center shadow-sm border border-black/5">
                       <span className="text-4xl font-black text-black leading-none">72</span>
                       <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider mt-1">KM / H</span>
                     </div>
-
-                    {/* Circular Speed Limit Sign Unit */}
                     <div className="w-[64px] h-[64px] bg-white border-[5px] border-red-600 rounded-full flex flex-col items-center justify-center shadow-md mb-1">
                       <span className="text-xl font-black text-black leading-none">90</span>
                       <span className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-tight mt-0.5">km/h</span>
                     </div>
-
-                    {/* Right Telemetry Details Row Grid */}
                     <div className="text-xs font-bold text-[#5c5454] space-y-2 flex-1 max-w-[200px] pb-1">
                       <div className="flex justify-between border-b border-black/10 pb-1">
                         <span>Efficiency</span>
@@ -219,13 +204,12 @@ export default function App() {
                         <span className="font-black text-[#459a3e]">Normal</span>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
             )}
 
-            {/* SCREEN 1.2: FIXED CHARGING SCREEN LIST */}
+            {/* 1.2 NEAREST CHARGING STATION */}
             {activeState === '1.2' && (
               <div className="w-full h-full flex flex-col justify-between flex-1">
                 <div className="flex justify-between items-center mb-4">
@@ -233,40 +217,69 @@ export default function App() {
                   <button onClick={() => setActiveState('1.7')} className="bg-[#b2c7af] hover:bg-[#a0b59d] transition-colors rounded-[18px] px-4 py-2 flex items-center gap-2 shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-bold text-[#0c2d09] text-xs uppercase tracking-wide"><Search size={14} /><span>Search Station</span></button>
                 </div>
                 <div className="w-full flex-1 flex flex-col xl:flex-row gap-6 overflow-hidden">
+                  {/* Map */}
                   <div className="flex-1 bg-[#09122C] rounded-[17px] relative overflow-hidden shadow-inner min-h-[260px] border border-slate-400/40">
-                    <img src="/map-render.png" className="w-full h-full object-cover" alt="Figma Charging Pins Map" />
+                    <img src="/map-render.png" className="w-full h-full object-cover" alt="Charging Pins Map" />
                   </div>
-                  
-                  <div className="w-full xl:w-[360px] shrink-0 bg-[#d9d9d9] rounded-[17px] p-2 flex flex-col justify-start">
-                    <div className="flex items-center gap-2 mb-4 px-1">
-                      <div className="w-7 h-7 bg-emerald-600 text-white rounded flex items-center justify-center font-black shadow-sm">⚡</div>
+                  {/* Charger List Panel */}
+                  <div className="w-full xl:w-[300px] shrink-0 flex flex-col gap-3">
+                    <div className="flex items-center gap-3 mb-1">
+                      <div className="w-7 h-7 bg-[#459a3e] text-white rounded flex items-center justify-center font-black text-sm">⚡</div>
                       <h3 className="text-black font-black text-base">Nearby Chargers</h3>
                       <span className="text-[#5c5454] text-xs ml-auto font-black uppercase">3 found</span>
                     </div>
-
-                    <div className="space-y-3 flex-1 overflow-y-auto pr-1">
-                      <div onClick={() => setActiveState('1.3')} className="bg-white/95 hover:bg-slate-100 transition p-3 rounded-xl flex justify-between items-center border border-slate-300/30 cursor-pointer shadow-sm">
+                    {/* Station 1 */}
+                    <div onClick={() => setActiveState('1.3')} className="bg-white p-3 rounded-xl border border-slate-300/30 shadow-sm cursor-pointer hover:border-emerald-500 transition">
+                      <div className="flex justify-between items-start mb-2">
                         <div>
-                          <div className="text-black font-black text-xs">🟢 [1] ChargeSINI Charging Station</div>
-                          <div className="flex items-center gap-2 text-[10px] text-[#459a3e] font-black mt-1"><span>▰▰▰▰▰▰▱▱▱▱</span><span>6/10 Slots</span></div>
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                            <span className="text-black font-black text-xs">[1] ChargeSINI Charging Station</span>
+                          </div>
+                          <div className="text-[10px] text-[#459a3e] font-black">6/10 Slots</div>
                         </div>
-                        <div className="text-right text-xs font-black text-slate-800">10 km</div>
+                        <span className="text-xs font-black text-slate-800 shrink-0 ml-2">10 km</span>
                       </div>
-
-                      <div className="bg-white/95 p-3 rounded-xl border border-slate-300/30 flex justify-between items-center shadow-sm">
-                        <div>
-                          <div className="text-black font-black text-xs">🟠 [2] The Summer Mall Terminal</div>
-                          <div className="flex items-center gap-2 text-[10px] text-amber-600 font-black mt-1"><span>▰▰▰▰▱▱▱▱▱▱</span><span>4/10 Slots</span></div>
-                        </div>
-                        <div className="text-right text-xs font-black text-slate-800">12 km</div>
+                      <div className="flex gap-0.5">
+                        {Array.from({length: 10}).map((_, i) => (
+                          <div key={i} className={`h-2 flex-1 rounded-sm ${i < 6 ? 'bg-[#459a3e]' : 'bg-slate-200'}`}></div>
+                        ))}
                       </div>
-
-                      <div className="bg-white/95 p-3 rounded-xl border border-slate-300/30 flex justify-between items-center shadow-sm">
+                    </div>
+                    {/* Station 2 */}
+                    <div onClick={() => setActiveState('1.3')} className="bg-white p-3 rounded-xl border border-slate-300/30 shadow-sm cursor-pointer hover:border-amber-400 transition">
+                      <div className="flex justify-between items-start mb-2">
                         <div>
-                          <div className="text-black font-black text-xs">🔴 [3] Samarahan Expressway Hub</div>
-                          <div className="flex items-center gap-2 text-[10px] text-red-600 font-black mt-1"><span>▰▰▱▱▱▱▱▱▱▱</span><span>2/10 Slots</span></div>
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                            <span className="text-black font-black text-xs">[2] The Summer Mall Terminal</span>
+                          </div>
+                          <div className="text-[10px] text-amber-600 font-black">4/10 Slots</div>
                         </div>
-                        <div className="text-right text-xs font-black text-slate-800">15 km</div>
+                        <span className="text-xs font-black text-slate-800 shrink-0 ml-2">12 km</span>
+                      </div>
+                      <div className="flex gap-0.5">
+                        {Array.from({length: 10}).map((_, i) => (
+                          <div key={i} className={`h-2 flex-1 rounded-sm ${i < 4 ? 'bg-amber-500' : 'bg-slate-200'}`}></div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Station 3 */}
+                    <div onClick={() => setActiveState('1.3')} className="bg-white p-3 rounded-xl border border-slate-300/30 shadow-sm cursor-pointer hover:border-red-400 transition">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span>
+                            <span className="text-black font-black text-xs">[3] Samarahan Expressway Hub</span>
+                          </div>
+                          <div className="text-[10px] text-red-600 font-black">2/10 Slots</div>
+                        </div>
+                        <span className="text-xs font-black text-slate-800 shrink-0 ml-2">15 km</span>
+                      </div>
+                      <div className="flex gap-0.5">
+                        {Array.from({length: 10}).map((_, i) => (
+                          <div key={i} className={`h-2 flex-1 rounded-sm ${i < 2 ? 'bg-red-500' : 'bg-slate-200'}`}></div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -274,7 +287,7 @@ export default function App() {
               </div>
             )}
 
-            {/* FIGMA VIEW 1.3: INTERACTIVE POWER CHARGING SLOTS HUD */}
+            {/* 1.3 CHARGING HUD */}
             {activeState === '1.3' && (
               <div className="w-full h-full flex flex-col justify-between flex-1">
                 <span className="text-[#928c8c] text-xs font-black tracking-wider uppercase mb-1">{isCharging ? 'STOP CHARGING' : 'START CHARGING'}</span>
@@ -294,7 +307,7 @@ export default function App() {
               </div>
             )}
 
-            {/* FIGMA VIEW 1.4: TEMPERATURE REGULATOR SLOTS */}
+            {/* 1.4 TEMPERATURE */}
             {activeState === '1.4' && (
               <div className="w-full h-full flex flex-col justify-between flex-1">
                 <span className="text-[#928c8c] text-xs font-black tracking-wider uppercase">ADJUST TEMPERATURE</span>
@@ -312,7 +325,7 @@ export default function App() {
               </div>
             )}
 
-            {/* FIGMA VIEW 1.5: VISIBILITY DEFOGGER */}
+            {/* 1.5 DEFOGGER */}
             {activeState === '1.5' && (
               <div className="w-full h-full flex flex-col justify-between items-center py-6 text-center">
                 <span className="text-[#928c8c] text-xs font-black tracking-wider uppercase w-full text-left">VISIBILITY WARNING</span>
@@ -332,7 +345,7 @@ export default function App() {
               </div>
             )}
 
-            {/* FIGMA VIEW 1.6: AIR CIRCULATION */}
+            {/* 1.6 AIR CIRCULATION */}
             {activeState === '1.6' && (
               <div className="w-full h-full flex flex-col justify-between items-center py-6 text-center">
                 <span className="text-[#928c8c] text-xs font-black tracking-wider uppercase w-full text-left">AIR CIRCULATION CONTROL</span>
@@ -349,7 +362,7 @@ export default function App() {
               </div>
             )}
 
-            {/* FIGMA VIEW 1.7: SET DESTINATION MAP */}
+            {/* 1.7 MAP */}
             {activeState === '1.7' && (
               <div className="w-full h-full flex flex-col xl:flex-row gap-6 flex-1 overflow-hidden">
                 <div className="flex-1 flex flex-col justify-between h-full">
@@ -359,7 +372,7 @@ export default function App() {
                     </div>
                   </div>
                   <div className="w-full flex-1 bg-[#09122C] rounded-[17px] relative overflow-hidden shadow-inner border border-slate-400/30">
-                    <img src="/normal-map.png" className="w-full h-full object-cover" alt="Figma Normal Roadmap Render" />
+                    <img src="/normal-map.png" className="w-full h-full object-cover" alt="Normal Roadmap" />
                   </div>
                 </div>
                 <div className="w-[340px] shrink-0 flex flex-col justify-between h-full gap-4">
@@ -387,7 +400,7 @@ export default function App() {
               </div>
             )}
 
-            {/* FIGMA VIEW 1.7.1: RECENT DESTINATIONS TABLE SHEET GRID */}
+            {/* 1.7.1 RECENT DESTINATIONS */}
             {activeState === '1.7.1' && (
               <div className="w-full h-full flex flex-col xl:flex-row gap-6 flex-1 overflow-hidden">
                 <div className="flex-1 flex flex-col h-full">
@@ -433,9 +446,7 @@ export default function App() {
 
           </div>
 
-          {/* ========================================================= */}
-          {/* SIDEBAR BLOCK: HOME SCREEN SIDE PANEL                     */}
-          {/* ========================================================= */}
+          {/* RIGHT SIDEBAR: HOME SCREEN ONLY */}
           {activeState === '1.1' && (
             <div className="w-full xl:w-[423px] shrink-0 flex flex-col gap-6">
               <div className="bg-[#d9d9d9] border border-white/10 rounded-[17px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-4 flex flex-col">
@@ -457,17 +468,12 @@ export default function App() {
                   </div>
                 </div>
               </div>
-
-              {/* ==================================================================== */}
-              {/* FIXED SIDEBAR CARD: ALL 3 STATIONS LINKED TO MAP TELEMETRY HERE     */}
-              {/* ==================================================================== */}
               <div className="bg-[#d9d9d9] border border-white/10 rounded-[17px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-5 flex-1 flex flex-col justify-start">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-7 h-7 bg-[#459a3e] text-white rounded flex items-center justify-center font-black">⚡</div>
                   <h3 className="text-black font-black text-base">Nearby Chargers</h3>
                   <span className="text-[#5c5454] text-xs ml-auto font-black uppercase">3 found</span>
                 </div>
-                
                 <div className="space-y-3 flex-1 flex flex-col overflow-y-auto max-h-[210px] pr-1">
                   <div onClick={() => setActiveState('1.2')} className="bg-white p-3 rounded-xl border border-slate-300/30 flex justify-between items-center shadow-sm cursor-pointer hover:border-emerald-500 transition">
                     <div><div className="text-black font-black text-xs">🟢 ChargeSINI Charging Station</div><div className="text-[10px] text-[#459a3e] font-black mt-1">6/10 Slots | 150kW max</div></div>
@@ -489,9 +495,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* FOOTER BAR NAVIGATION DOCK COMPONENT LINKS                */}
-      {/* ========================================================= */}
+      {/* FOOTER */}
       <section id="section-footer" className="w-full pb-2 pt-1">
         <div className="bg-[#d9d9d9] rounded-[17px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] px-8 lg:px-24 py-4 flex justify-between items-center min-h-[95px]">
           
