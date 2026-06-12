@@ -114,7 +114,7 @@ export default function App() {
                 <div className="flex flex-col items-center gap-3 flex-1 justify-start pt-2">
                   <div className="text-[#928c8c] text-[10px] font-black tracking-widest uppercase w-full text-left mb-1">CURRENT BATTERY STATUS</div>
                   <div className="w-full flex items-center justify-center my-2">
-                    <div className="w-[120px] h-[70px] bg-slate-300 rounded-[14px] flex items-center justify-center text-slate-500 text-xs font-bold">EV CAR</div>
+                    <img src="/car-render.png" className="w-[150px] h-[90px] object-contain" alt="EV Car" />
                   </div>
                   <div className="w-full space-y-2 text-sm font-bold mt-2">
                     <div className="flex justify-between border-b border-black/10 pb-2">
