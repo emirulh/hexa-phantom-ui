@@ -151,7 +151,13 @@ export default function App() {
               onClick={() => setActiveState('1.2')}
               className="w-full bg-[#b2c7af] hover:bg-[#a0b59d] transition-colors rounded-[18px] py-3.5 flex items-center justify-center gap-2 shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-black text-[#0c2d09] text-xs uppercase tracking-wider"
             >
-              <span>{activeState === '1.7' || activeState === '1.7.1' ? 'NAVIGATION READY' : 'SELECT CHARGER'}</span>
+              <span>
+                {activeState === '1.4' 
+                  ? 'TEMP CONTROL' 
+                  : activeState === '1.7' || activeState === '1.7.1' 
+                  ? 'NAVIGATION READY' 
+                  : 'SELECT CHARGER'}
+              </span>
             </button>
           </div>
 
@@ -160,28 +166,66 @@ export default function App() {
           {/* ----------------------------------------------------- */}
           <div className="flex-1 bg-[#d9d9d9] rounded-[17px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] p-6 flex flex-col justify-between relative overflow-hidden">
             
-            {/* FIGMA VIEW 1.1: HOME ENGINE */}
+            {/* ========================================================================================= */}
+            {/* FIXED FIGMA 1.1 DRIVE MODE DASHBOARD VIEW                                                 */}
+            {/* ========================================================================================= */}
             {activeState === '1.1' && (
               <div className="w-full h-full flex flex-col justify-between flex-1">
-                <div>
-                  <div className="text-emerald-700 text-xl font-black text-center mt-2">In 300 m</div>
-                  <div className="flex justify-center my-4"><ArrowUpRight size={76} className="text-emerald-600 stroke-[3.5]" /></div>
-                  <div className="text-3xl font-black text-black text-center tracking-tight">Unimas Campus</div>
-                  <div className="text-slate-500 text-[10px] font-black text-center tracking-widest uppercase mt-0.5">Next Turn</div>
-                </div>
-                <div className="border-t border-black/10 my-2"></div>
-                <div className="flex items-center gap-2 text-slate-600 font-bold text-xs justify-center"><MapPin size={14} /><span>Via Kota Samarahan</span></div>
-                <div className="flex gap-4 mt-2">
-                  <div className="bg-[#b8b8b8] text-center rounded-[14px] p-3 flex-1 shadow-sm"><span className="text-emerald-700 font-black text-lg block">21:24</span><span className="text-[9px] text-slate-600 font-bold uppercase block mt-0.5">Arrival</span></div>
-                  <div className="bg-[#b8b8b8] text-center rounded-[14px] p-3 flex-1 shadow-sm"><span className="text-black font-black text-lg block">24 <span className="text-xs text-slate-500">min</span></span><span className="text-[9px] text-slate-600 font-bold uppercase block mt-0.5">Time Left</span></div>
-                  <div className="bg-[#b8b8b8] text-center rounded-[14px] p-3 flex-1 shadow-sm"><span className="text-black font-black text-lg block">12.3 <span className="text-xs text-slate-500">km</span></span><span className="text-[9px] text-slate-600 font-bold uppercase block mt-0.5">Distance</span></div>
+                <h2 className="text-[#928c8c] text-xs font-black tracking-wider uppercase text-left mb-2">VEHICLE STATUS</h2>
+                
+                <div className="flex-1 flex flex-col justify-center items-center my-auto">
+                  
+                  {/* Huge Figma Battery Gauge and Large Text Indicator Row */}
+                  <div className="flex items-center gap-6 mb-2">
+                    <div className="w-[170px] h-[85px] border-[5px] border-[#459a3e] rounded-[22px] p-1.5 flex items-center bg-transparent">
+                      <div className="h-full bg-[#459a3e] rounded-[12px]" style={{ width: `${chargeProgress}%` }}></div>
+                    </div>
+                    <div className="text-6xl font-black text-[#459a3e] tracking-tighter">{chargeProgress}%</div>
+                  </div>
+
+                  {/* Dynamic Remaining Range Metrics */}
+                  <div className="text-center mb-8">
+                    <div className="text-4xl font-black text-black leading-none tracking-tight">188 km</div>
+                    <div className="text-[10px] text-slate-500 font-black tracking-widest uppercase mt-1">Remaining Range</div>
+                  </div>
+
+                  {/* Unified Telemetry Widgets Block */}
+                  <div className="flex items-end gap-6 w-full justify-center max-w-lg">
+                    
+                    {/* Current Vehicle Speed Box */}
+                    <div className="bg-[#c8c8c8] rounded-[18px] w-[130px] h-[95px] flex flex-col items-center justify-center shadow-sm border border-black/5">
+                      <span className="text-4xl font-black text-black leading-none">72</span>
+                      <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider mt-1">KM / H</span>
+                    </div>
+
+                    {/* Circular Speed Limit Sign Unit */}
+                    <div className="w-[64px] h-[64px] bg-white border-[5px] border-red-600 rounded-full flex flex-col items-center justify-center shadow-md mb-1">
+                      <span className="text-xl font-black text-black leading-none">90</span>
+                      <span className="text-[8px] font-black text-slate-400 uppercase leading-none tracking-tight mt-0.5">km/h</span>
+                    </div>
+
+                    {/* Right Telemetry Details Row Grid */}
+                    <div className="text-xs font-bold text-[#5c5454] space-y-2 flex-1 max-w-[200px] pb-1">
+                      <div className="flex justify-between border-b border-black/10 pb-1">
+                        <span>Efficiency</span>
+                        <span className="font-black text-black">226 Wh/km</span>
+                      </div>
+                      <div className="flex justify-between border-b border-black/10 pb-1">
+                        <span>Power</span>
+                        <span className="font-black text-black">12.4 kW</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Battery Status</span>
+                        <span className="font-black text-[#459a3e]">Normal</span>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
               </div>
             )}
 
-            {/* ========================================================================================= */}
-            {/* SCREEN 1.2: FIXED CHARGING SCREEN LIST - ALL 3 CHARGER SLOTS RENDERED HERE                */}
-            {/* ========================================================================================= */}
+            {/* SCREEN 1.2: FIXED CHARGING SCREEN LIST */}
             {activeState === '1.2' && (
               <div className="w-full h-full flex flex-col justify-between flex-1">
                 <div className="flex justify-between items-center mb-4">
@@ -200,7 +244,6 @@ export default function App() {
                       <span className="text-[#5c5454] text-xs ml-auto font-black uppercase">3 found</span>
                     </div>
 
-                    {/* Displays all 3 stations corresponding to the 3 pins on the map image */}
                     <div className="space-y-3 flex-1 overflow-y-auto pr-1">
                       <div onClick={() => setActiveState('1.3')} className="bg-white/95 hover:bg-slate-100 transition p-3 rounded-xl flex justify-between items-center border border-slate-300/30 cursor-pointer shadow-sm">
                         <div>
@@ -427,16 +470,16 @@ export default function App() {
                 
                 <div className="space-y-3 flex-1 flex flex-col overflow-y-auto max-h-[210px] pr-1">
                   <div onClick={() => setActiveState('1.2')} className="bg-white p-3 rounded-xl border border-slate-300/30 flex justify-between items-center shadow-sm cursor-pointer hover:border-emerald-500 transition">
-                    <div><div className="text-black font-black text-xs">🟢 [1] ChargeSINI Station</div><div className="text-[10px] text-[#459a3e] font-black mt-1">6/10 Slots</div></div>
+                    <div><div className="text-black font-black text-xs">🟢 ChargeSINI Charging Station</div><div className="text-[10px] text-[#459a3e] font-black mt-1">6/10 Slots | 150kW max</div></div>
                     <div className="text-right text-xs font-black text-slate-800">10 km</div>
                   </div>
                   <div onClick={() => setActiveState('1.2')} className="bg-white p-3 rounded-xl border border-slate-300/30 flex justify-between items-center shadow-sm cursor-pointer hover:border-emerald-500 transition">
-                    <div><div className="text-black font-black text-xs">🟠 [2] Summer Mall Terminal</div><div className="text-[10px] text-amber-600 font-black mt-1">4/10 Slots</div></div>
-                    <div className="text-right text-xs font-black text-slate-800">12 km</div>
+                    <div><div className="text-black font-black text-xs">🟠 BMW Charging Station</div><div className="text-[10px] text-amber-600 font-black mt-1">2/8 Slots | 150kW max</div></div>
+                    <div className="text-right text-xs font-black text-slate-800">18 km</div>
                   </div>
                   <div onClick={() => setActiveState('1.2')} className="bg-white p-3 rounded-xl border border-slate-300/30 flex justify-between items-center shadow-sm cursor-pointer hover:border-emerald-500 transition">
-                    <div><div className="text-black font-black text-xs">🔴 [3] Samarahan Expressway</div><div className="text-[10px] text-red-600 font-black mt-1">2/10 Slots</div></div>
-                    <div className="text-right text-xs font-black text-slate-800">15 km</div>
+                    <div><div className="text-black font-black text-xs">🔴 JomCharge Charging Station</div><div className="text-[10px] text-red-600 font-black mt-1">0/4 Slots | 100kW max</div></div>
+                    <div className="text-right text-xs font-black text-slate-800">21 km</div>
                   </div>
                 </div>
               </div>
