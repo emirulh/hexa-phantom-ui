@@ -1,16 +1,32 @@
-# React + Vite
+# HEXA ONE — Car display prototype
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A client presentation prototype of an electric-car centre display. React + Vite; all interactions run locally in the browser. No vehicle, mapping, weather, billing or audio service is connected.
 
-Currently, two official plugins are available:
+## Present the prototype
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Open in a landscape browser (1280 × 800 or larger recommended). The six bottom menus always remain accessible. Open **Settings → Presentation guide** for a walkthrough and **Reset demonstration** between client sessions.
 
-## React Compiler
+- **Navigate:** search the four sample destinations, preview/start/end a route, zoom and centre the illustrated map.
+- **Comfort:** set 16–28°C, select temperature presets, adjust the fan, cooling, fresh air and window clearing.
+- **Charging:** choose a sample station, set a 50–100% target, start/pause/finish an accelerated charge. Range and sample cost update with progress. Station selection and target changes are locked while charging.
+- **Car:** toggle door locks and boot, set lights and wipers.
+- **Music:** simulated playlist, play/pause, next track and volume. No audio plays.
+- **Settings:** night appearance, brightness, full-screen mode, presentation guide and reset.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The car remains parked. Destinations and prices are illustrative. The clock uses the browser's local time. Reload resets the prototype. Touch and keyboard controls are supported, with a stacked layout on smaller screens.
 
-## Expanding the ESLint configuration
+## Develop
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```sh
+npm ci
+npm run dev
+```
+
+```sh
+npm run lint
+npm run build
+```
+
+## Design
+
+Original sage, ivory and charcoal palette, illustrated map and Hexa branding. Persistent vehicle information and one-touch comfort access take inspiration from modern automotive interfaces, including Tesla's touchscreen overview and climate documentation, without reproducing their layout or branding.
